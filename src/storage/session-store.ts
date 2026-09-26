@@ -6,7 +6,8 @@ export class SessionStore {
 
   // Stores a suspended approval session awaiting human sign-off.
   public static saveSession(session: SuspendedApprovalSession): void {
-    this.sessions.set(session.sessionId, session);
+    const frozenSession = structuredClone(session);
+    this.sessions.set(frozenSession.sessionId, frozenSession);
   }
 
   // Retrieves a suspended session by ID.
