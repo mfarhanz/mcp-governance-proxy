@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Activity, ArrowLeft, Check, Gauge, Link2, Play, Power, RefreshCw, Server, Shield, Siren, X, Zap } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { demoRequests, type GuardianRequest, type RiskZone, zoneLabel } from "@/lib/guardian-data";
 
 export const Route = createFileRoute("/demo")({
