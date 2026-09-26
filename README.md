@@ -236,6 +236,3 @@ cd mcp-governance-proxy
 
 This is meant to be a minimal, forkable reference implementation — issues and PRs that tighten the scoring math, propose a fatigue-score formula, or add real audit-log-driven calibration are especially welcome. Please open an issue for any of the [open items](#configuration--open-items) before submitting a large PR so design direction can be agreed on first.
 
-## License
-
-_Add a license (e.g. MIT/Apache-2.0) before publishing._
