@@ -6,9 +6,8 @@ import { MCPToolCall } from "../types/mcp.types.js";
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-/**
- * Helper to parse JSON request bodies.
- */
+
+// Helper to parse JSON request bodies.
 function parseJsonBody<T>(req: http.IncomingMessage): Promise<T> {
   return new Promise((resolve, reject) => {
     let body = "";
@@ -26,9 +25,8 @@ function parseJsonBody<T>(req: http.IncomingMessage): Promise<T> {
   });
 }
 
-/**
- * Helper to send standard JSON responses with CORS headers.
- */
+
+// Helper to send standard JSON responses with CORS headers.
 function sendJson(
   res: http.ServerResponse,
   statusCode: number,

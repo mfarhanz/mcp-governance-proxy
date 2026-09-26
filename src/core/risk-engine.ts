@@ -3,9 +3,7 @@ import { MCPToolCall } from "../types/mcp.types.js";
 import { ActionType, RiskAnalysisResult, RuleHit, Zone } from "../types/risk.types.js";
 
 export class RiskEngine {
-  /**
-   * Evaluates an incoming MCP tool call and computes its deterministic risk score.
-   */
+  // Evaluates an incoming MCP tool call and computes its deterministic risk score.
   public static evaluate(
     toolCall: MCPToolCall,
     historicalScores: number[] = []
@@ -156,10 +154,7 @@ export class RiskEngine {
     };
   }
 
-  /**
-   * Calculates z-score for statistical drift tracking.
-   * Cold start: Returns 0 if historical data is insufficient (< 5 entries).
-   */
+  // Calculates z-score for statistical drift tracking.
   private static calculateZScore(history: number[]): number {
     if (!history || history.length < 5) {
       return 0;

@@ -1,10 +1,8 @@
 import { createHash } from "node:crypto";
 
 export class IntegrityMonitor {
-  /**
-   * Generates a deterministic SHA-256 hash of a JSON payload.
-   * Sorts keys to ensure identical payloads produce the same hash regardless of object key order.
-   */
+  // Generates a deterministic SHA-256 hash of a JSON payload to ensure integrity.
+  // Sorts keys to ensure identical payloads produce the same hash regardless of object key order.
   public static generateCanonicalHash(payload: Record<string, unknown>): string {
     const sortedPayload = this.sortKeys(payload);
     const jsonString = JSON.stringify(sortedPayload);
@@ -14,16 +12,12 @@ export class IntegrityMonitor {
       .digest("hex");
   }
 
-  /**
-   * Verifies that the payload approved by the human matches the payload attempting to execute.
-   */
+  // Verifies that the payload approved by the human matches the payload attempting to execute.
   public static verify(approvedHash: string, executionHash: string): boolean {
     return approvedHash === executionHash;
   }
 
-  /**
-   * Recursively sorts the keys of an object to guarantee deterministic JSON stringification.
-   */
+  // Recursively sorts the keys of an object to guarantee deterministic JSON stringification.
   private static sortKeys(obj: any): any {
     if (obj === null || typeof obj !== "object") {
       return obj;

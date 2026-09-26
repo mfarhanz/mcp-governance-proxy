@@ -1,6 +1,4 @@
-/**
- * Action classifications for various MCP tool call categories
- */
+// Action classifications for various MCP tool call categories
 export enum ActionType {
   READ_ONLY = "READ_ONLY",
   METADATA = "METADATA",

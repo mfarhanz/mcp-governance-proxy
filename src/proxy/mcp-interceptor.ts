@@ -1,4 +1,4 @@
-import { GOVERNANCE_CONFIG } from "../config/default.config.js";
+// import { GOVERNANCE_CONFIG } from "../config/default.config.js";
 import { RiskEngine } from "../core/risk-engine.js";
 import { TimingEngine } from "../core/timing-engine.js";
 import { FatigueTracker } from "../core/fatigue-tracker.js";
@@ -14,10 +14,7 @@ import {
 import { Zone } from "../types/risk.types.js";
 
 export class MCPInterceptor {
-    /**
-     * Main entrypoint: Intercepts an incoming MCP tool call and routes it through
-     * Risk, Timing, Fatigue, and Integrity evaluation.
-     */
+    // Main entrypoint: Intercepts an incoming MCP tool call and routes it through Risk, Timing, Fatigue, and Integrity evaluation.
     public static async intercept(
         toolCall: MCPToolCall
     ): Promise<GovernanceDecision> {
@@ -121,9 +118,7 @@ export class MCPInterceptor {
         };
     }
 
-    /**
-     * Resolves a suspended human approval session when an operator clicks Approve/Reject.
-     */
+    // Resolves a suspended human approval session when an operator clicks Approve/Reject.
     public static async resolveApproval(
         sessionId: string,
         action: "APPROVE" | "REJECT",

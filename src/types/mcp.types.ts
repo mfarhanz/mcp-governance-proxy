@@ -1,6 +1,4 @@
-/**
- * Standard MCP Interceptor Tool Call interfaces
- */
+// Standard MCP Interceptor Tool Call interfaces
 export interface MCPToolCall {
   id: string;
   toolName: string;

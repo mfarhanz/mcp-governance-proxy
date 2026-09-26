@@ -4,9 +4,9 @@ import { TimingFloors, TimingVerdict } from "../types/governance.types.js";
 import { ActionType } from "../types/risk.types.js";
 
 export class TimingEngine {
-  /**
-   * Calculates the hard and soft dynamic timing floors based on tool argument payload density.
-   */
+  // Calculates the hard and soft dynamic timing floors based on tool argument payload density.
+  //Hard Timing floors mean that the user is fatigued.
+  //Soft Timing floors indicate that the user is attentive to the high risk prompts.
   public static calculateFloors(toolCall: MCPToolCall): TimingFloors {
     const payloadStr = JSON.stringify(toolCall.arguments || {});
 
@@ -63,9 +63,7 @@ export class TimingEngine {
     };
   }
 
-  /**
-   * Evaluates the human response timing delta against the calculated floors.
-   */
+  // Evaluates the human response timing delta against the calculated floors.
   public static evaluateTiming(
     tShown: number,
     tClick: number,
