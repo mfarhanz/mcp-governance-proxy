@@ -15,6 +15,16 @@ export interface TimingFloors {
   fieldCount: number;
 }
 
+export type ApprovalStatus =
+  | "PENDING"
+  | "SHOWN"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "TOO_FAST"
+  | "RECONFIRMATION_REQUIRED"
+  | "CONFIRMED"
+  | "EXPIRED";
+
 export interface SuspendedApprovalSession {
   sessionId: string;
   toolCall: MCPToolCall;
@@ -23,6 +33,8 @@ export interface SuspendedApprovalSession {
   tShown: number;
   timingFloors: TimingFloors;
   requiresReConfirmation?: boolean;
+  confirmationAttempts?: number;
+  status?: ApprovalStatus;
 }
 
 export interface GovernanceDecision {

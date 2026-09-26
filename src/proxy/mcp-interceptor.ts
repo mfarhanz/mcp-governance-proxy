@@ -1,4 +1,3 @@
-// import { GOVERNANCE_CONFIG } from "../config/default.config.js";
 import { RiskEngine } from "../core/risk-engine.js";
 import { TimingEngine } from "../core/timing-engine.js";
 import { FatigueTracker } from "../core/fatigue-tracker.js";
@@ -7,6 +6,7 @@ import { SessionStore } from "../storage/session-store.js";
 import { AuditLogger } from "../storage/audit-logger.js";
 import { MCPToolCall } from "../types/mcp.types.js";
 import {
+    ApprovalStatus,
     GovernanceDecision,
     SuspendedApprovalSession,
     TimingVerdict,
@@ -78,6 +78,7 @@ export class MCPInterceptor {
             tShown: timestamp,
             timingFloors: floors,
             requiresReConfirmation: isFatigued,
+            confirmationAttempts: 0,
         };
 
         SessionStore.saveSession(suspendedSession);
@@ -123,11 +124,20 @@ export class MCPInterceptor {
         sessionId: string,
         action: "APPROVE" | "REJECT",
         tClick: number
-    ): Promise<{ success: boolean; message: string; verdict?: TimingVerdict }> {
+    ): Promise<{
+        success: boolean;
+        message: string;
+        verdict?: TimingVerdict;
+        status?: ApprovalStatus;
+    }> {
         const session = SessionStore.getSession(sessionId);
 
         if (!session) {
-            return { success: false, message: "Approval session not found or expired." };
+            return {
+                success: false,
+                message: "Approval session not found or expired.",
+                status: "EXPIRED",
+            };
         }
 
         if (action === "REJECT") {
@@ -148,7 +158,11 @@ export class MCPInterceptor {
                 outcomeReason: "Action successfully rejected by operator.",
             });
 
-            return { success: true, message: "Action successfully rejected by operator." };
+            return {
+                success: true,
+                message: "Action successfully rejected by operator.",
+                status: "REJECTED",
+            };
         }
 
         // Evaluate timing to ensure human didn't blind-click faster than physical reading floor
@@ -159,9 +173,15 @@ export class MCPInterceptor {
         );
 
         if (verdict === TimingVerdict.TOO_FAST) {
+            // Increment the failed confirmation attempts counter
+            session.confirmationAttempts = (session.confirmationAttempts || 0) + 1;
+            session.status = "TOO_FAST";
+            SessionStore.saveSession(session);
+
             return {
                 success: false,
                 verdict,
+                status: "TOO_FAST",
                 message: `Approval clicked too quickly! Minimum reading time was ${session.timingFloors.hardFloorMs}ms. Please review the payload content thoroughly.`,
             };
         }
@@ -190,6 +210,7 @@ export class MCPInterceptor {
         return {
             success: true,
             verdict,
+            status: "ACCEPTED",
             message: "Action approved and released for execution.",
         };
     }
